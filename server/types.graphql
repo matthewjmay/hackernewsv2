@@ -1,0 +1,26 @@
+type Link @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  description: String!
+  votes: [Vote!]! @relation(name: "VotesOnLink")
+  url: String!
+  postedBy: User @relation(name: "UsersLinks")
+}
+
+type User @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  email: String @isUnique
+  password: String
+  votes: [Vote!]! @relation(name: "UsersVotes")
+  links: [Link!]! @relation(name: "UsersLinks")
+}
+
+type Vote @model {
+  id: ID! @isUnique
+  user: User! @relation(name: "UsersVotes")
+  link: Link! @relation(name: "VotesOnLink")
+}
