@@ -7,7 +7,18 @@ class Search extends Component {
 
   state = {
     links: [],
-    searchText: ''
+    searchText: '',
+    lastExecutedSearch: null
+  }
+
+  _updateCacheAfterVote = (store, createVote, linkId) => {
+    const { lastExecutedSearch } = this.state
+    const data = store.readQuery({ query: ALL_LINKS_SEARCH_QUERY, variables: { searchText: lastExecutedSearch } })
+
+    const votedLink = data.allLinks.find(link => link.id === linkId)
+    votedLink.votes = createVote.link.votes
+    store.writeQuery({ query: ALL_LINKS_SEARCH_QUERY, data, variables: { searchText: lastExecutedSearch }})
+    this.setState( { links: data.allLinks })
   }
 
   render() {
@@ -25,7 +36,7 @@ class Search extends Component {
             OK
           </button>
         </div>
-        {this.state.links.map((link, index) => <Link key={link.id} link={link} index={index}/>)}
+        {this.state.links.map((link, index) => <Link key={link.id} link={link} updateStoreAfterVote={this._updateCacheAfterVote} index={index}/>)}
       </div>
     )
   }
@@ -37,7 +48,8 @@ class Search extends Component {
       variables: { searchText }
     })
     const links = result.data.allLinks
-    this.setState({ links })
+    const lastExecutedSearch = searchText
+    this.setState({ links, lastExecutedSearch })
   }
 
 }

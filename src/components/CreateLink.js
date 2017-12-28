@@ -60,6 +60,11 @@ class CreateLink extends Component {
           query: ALL_LINKS_QUERY,
           variables: { first, skip, orderBy }
         })
+        
+        //if subscription already updated local query, don't create a duplicate link
+        const subscriptionfirst = data.allLinks.some(link => link.id === createLink.id)
+        if (subscriptionfirst) return
+        
         data.allLinks.splice(0,0,createLink)
         data.allLinks.pop()
         store.writeQuery({
@@ -73,7 +78,7 @@ class CreateLink extends Component {
   }
 }
 
-// 1
+
 const CREATE_LINK_MUTATION = gql`
   mutation CreateLinkMutation($description: String!, $url: String!, $postedById: ID!) {
     createLink(

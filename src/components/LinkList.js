@@ -53,6 +53,7 @@ class LinkList extends Component {
   }
 
   _subscribeToNewVotes = () => {
+    //return
     this.props.allLinksQuery.subscribeToMore({
       document: gql`
         subscription {
@@ -117,7 +118,7 @@ class LinkList extends Component {
 
     const votedLink = data.allLinks.find(link => link.id === linkId)
     votedLink.votes = createVote.link.votes
-    store.writeQuery({ query: ALL_LINKS_QUERY, data })
+    store.writeQuery({ query: ALL_LINKS_QUERY, data, variables: { first, skip, orderBy }})
   }
 
   _nextPage = () => {
