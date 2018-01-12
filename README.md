@@ -2225,8 +2225,5 @@ To resolve this:
 In the future, we might start automatically compiling incompatible third-party modules, but it is not currently supported. This approach would also slow down the production builds.
 
 ## Something Missing?
-
+tesrtiasdfasdf
 If you have ideas for more “How To” recipes that should be on this page, [let us know](https://github.com/facebookincubator/create-react-app/issues) or [contribute some!](https://github.com/facebookincubator/create-react-app/edit/master/packages/react-scripts/template/README.md)
-ASDF
-ASDFASDF
-ASDFASDF
